@@ -10,7 +10,12 @@ LR = 0.001
 
 class Agent:
     def __init__(self):
-        pass
+        self.num_games = 0
+        self.epsilon = 0#parameter to control randomnes
+        self.gama = 0#discount rate from the equation
+        self.memory = deque(maxlen=MAX_MEMORY) #popleft() - if we  exceed this
+        # memory it will automaticly remove elements for use
+        # TODO - model, trainer
     def get_state(self, game):
         pass
     def remember(self,state,action,reward,next_state, game_over):
@@ -23,3 +28,5 @@ class Agent:
         pass
 def train():
     pass
+if __name__=='__main__':
+    train()
