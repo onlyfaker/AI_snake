@@ -22,11 +22,32 @@ class Agent:
         pass
     def train_long_memory(self):
         pass
-    def train_short_memory(self):
+    def train_short_memory(self,state,action,reward,next_state, game_over):
         pass
-    def get_action(self, state):
+    def get_action(self,state):
         pass
 def train():
-    pass
+    plot_scores = []
+    plot_mean = []
+    total_score = 0
+    record = 0
+    agent = Agent()
+    game = SnakeGame()
+    while True:
+        # get old state
+        state_old = agent.get_state(game)
+
+        #get move
+        final_move = agent.get_action(state_old)
+
+        #performe move and get new state
+        reward,game_over,score = game.play_step(action=final_move)
+        state_new = agent.get_state((game))
+
+        #train the short memory of agent
+        agent.train_short_memory(state_old,final_move,reward,state_new, game_over)
+
+        #remember
+        agent.remember(state_old,final_move,reward,state_new, game_over)
 if __name__=='__main__':
     train()
