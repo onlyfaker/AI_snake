@@ -15,6 +15,8 @@ class Agent:
         self.gama = 0#discount rate from the equation
         self.memory = deque(maxlen=MAX_MEMORY) #popleft() - if we  exceed this
         # memory it will automatically remove elements for use
+        self.model = None#TODO
+        self.trainer = None#TODO
         # TODO - model, trainer
     def get_state(self, game):
         head = game.snake[0]
@@ -64,13 +66,30 @@ class Agent:
 
 
     def remember(self,state,action,reward,next_state, game_over):
-        pass
+        self.memory.append((state,action,reward,next_state, game_over))#popleft if max memory is reached
     def train_long_memory(self):
-        pass
+        if len(self.memory)> BATCH_SIZE:
+            mini_sample = random.sample(self.memory,BATCH_SIZE)#list of tuples
+        else:
+            mini_sample = self.memory
+        states,actions,rewards,next_states, game_overs = zip(*mini_sample)
+        self.trainer.train_step(states,actions,rewards,next_states, game_overs)
+
     def train_short_memory(self,state,action,reward,next_state, game_over):
-        pass
+        self.trainer.train_step(state,action,reward,next_state, game_over)
     def get_action(self,state):
-        pass
+        #random moves: tradeoff exploration / exploitation
+        self.epsilon = 80-self.num_games
+        final_move = [0,0,0]
+        if random.randint(0,200)<self.epsilon:
+            move = random.randint(0,2)
+            final_move[move] = 1
+        else:
+            state0 = torch.tensor(state, dtype=torch.float)
+            prediction = self.model.predict(state0)
+            move=torch.argmax(prediction.item())
+            final_move[move] =1
+        return final_move
 def train():
     plot_scores = []
     plot_mean = []
