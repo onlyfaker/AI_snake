@@ -7,11 +7,6 @@ from collections import namedtuple
 pygame.init()
 font = pygame.font.Font('arial.ttf', 25)
 # OPTIMIZED FOR AI TRAINING - ONLY GAME MECHANICS AND REWARD SIGNALS
-# TODO - reset
-# TODO - reward
-# TODO - play(action) -> direction
-# TODO - game iter
-# TODO - is_collision
 
 
 # font = pygame.font.SysFont('arial', 25)
@@ -33,7 +28,7 @@ BLUE2 = (0, 100, 255)
 BLACK = (0, 0, 0)
 
 BLOCK_SIZE = 20
-SPEED = 20
+SPEED = 40
 
 
 class SnakeGame:
