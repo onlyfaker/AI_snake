@@ -129,17 +129,19 @@ class SnakeGame:
         pygame.display.flip()
 
     def _move(self, action):
-        # [right,right,left]
-        clock_wise = [Direction.RIGHT,Direction.DOWN,Direction.LEFT,Direction.UP]
+        # [straight, right, left]
+
+        clock_wise = [Direction.RIGHT, Direction.DOWN, Direction.LEFT, Direction.UP]
         idx = clock_wise.index(self.direction)
-        if np.array_equal(action, [1,0,0]):
-            new_dir = clock_wise[idx]# no change
-        elif np.array_equal(action, [0,1,0]):
-            next_idx = (idx+1)%4
-            new_dir = clock_wise[idx]# turn right r-d-l-u
-        else: #0,0,1
-            next_idx = (idx - 1) % 4# we go counter clock_wise
-            new_dir = clock_wise[idx]  # turn right r-u-l-d
+
+        if np.array_equal(action, [1, 0, 0]):
+            new_dir = clock_wise[idx]  # no change - go straight
+        elif np.array_equal(action, [0, 1, 0]):
+            next_idx = (idx + 1) % 4
+            new_dir = clock_wise[next_idx]  # FIXED: use next_idx, not idx
+        else:  # [0, 0, 1]
+            next_idx = (idx - 1) % 4
+            new_dir = clock_wise[next_idx]  # FIXED: use next_idx, not idx
 
         self.direction = new_dir
 
