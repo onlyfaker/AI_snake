@@ -4,6 +4,7 @@ import numpy as np
 from collections import deque
 from main import SnakeGame,Direction,Point
 from  model import LinearQNet, QTrainer
+from helper import plot
 
 MAX_MEMORY = 100_000# THIS MANY ITEMS WE CAN STORE
 BATCH_SIZE = 1000
@@ -124,7 +125,10 @@ def train():
                 record = score
                 agent.model.save()
             print('Game',agent.num_games, 'Score',score,'Record',record)
-            # TODO - plotting
-
+            plot_scores.append(score)
+            total_score+=score
+            mean_score = total_score/agent.num_games
+            plot_mean.append(mean_score)
+            plot(plot_scores,plot_mean)
 if __name__=='__main__':
     train()
