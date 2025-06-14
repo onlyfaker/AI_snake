@@ -53,7 +53,7 @@ class QTrainer:
             Q_new = reward[idx]
             if not game_over[idx]:
                 Q_new = reward[idx] + self.gamma * torch.max(self.model(next_state[idx]))
-            target[idx][torch.argmax(action).item()] = Q_new
+            target[idx][torch.argmax(action[idx]).item()] = Q_new
         #2: Q_NEW = r + y * max(next_predicted q value) -> only if not done
         #pred.clone()
         #preds [argmax(action] = Q_NEW
